@@ -10,7 +10,7 @@ Description: Estimates the DNA copy number profile using mBPCR
 Depends: oligoClasses, SNPchip
 Imports: Biobase
 Suggests: xtable 
-License: GPL (>=2)
+License: GPL (>= 2)
 URL: http://www.idsia.ch/~paola/mBPCR
 LazyData: yes
 biocViews: aCGH, SNP, Microarray, CopyNumberVariants, Bioinformatics
