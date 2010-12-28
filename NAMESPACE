@@ -1,6 +1,6 @@
 
 importMethodsFrom(Biobase, annotation, assayData, featureData,featureNames, phenoData)
-importMethodsFrom(SNPchip,centromere)
+importFrom(SNPchip,centromere)
 importClassesFrom(oligoClasses, oligoSnpSet)
 
 
