@@ -1,0 +1,22 @@
+import(SNPchip)
+importMethodsFrom(Biobase, annotation, assayData, featureData,featureNames, phenoData)
+importClassesFrom(oligoClasses, oligoSnpSet)
+
+
+## Exported functions
+
+export("logAdd",
+	"indexLA0",
+	"estGlobParam",
+	"computeLA0Vect",
+	"computeA10",
+	"computeRecursions",
+	"computeRegrCurve",
+	"computePCReg",
+	"computeMBPCR",
+	"writeEstProfile",
+	"importCNData",
+	"estProfileWithMBPCR",
+      "estProfileWithMBPCRforOligoSnpSet",
+	"plotEstProfile")
+
