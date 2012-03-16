@@ -66,12 +66,13 @@ corresponding to the not analyzed chromosomes and samples, are equal to \code{NA
 
 \examples{
 ###import an example of oligoSnpSet data
-#data(sample.snpset)
-##estimation of chromosome 1 in sample 3 
-#r <- estProfileWithMBPCRforOligoSnpSet(sample.snpset, sampleToBeAnalyzed=3, chrToBeAnalyzed=1, maxProbeNumber=1000, ifLogRatio=0, rhoSquare= 0.0889637)
+#data(oligoSetExample, package="oligoClasses")
+##estimation of chromosome 2 in sample 1 
+#r <-estProfileWithMBPCRforOligoSnpSet(oligoSet, sampleToBeAnalyzed=1, chrToBeAnalyzed=2, maxProbeNumber=1000, ifLogRatio=0, rhoSquare=0.0889637)
 ##plot of the estimated chromosomes
+#library(SNPchip)
 #cc <- r$estPC
-#cc1 <- cc[chromosome(cc) == "1",3]
+#cc1 <- cc[chromosome(cc) == "2",1]
 #graph.par <- plotSnp(cc1)
 #graph.par$ylim <- c(-0.23, 0.1)
 #graph.par$cytoband.ycoords <- c(-0.22, -0.18)
