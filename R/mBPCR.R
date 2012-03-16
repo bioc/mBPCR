@@ -514,8 +514,9 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
     if (class(sampleData) !="oligoSnpSet" || (length(assayData(sampleData)$copyNumber) == 0 | length(featureData(sampleData)$chromosome) == 0 | length(featureData(sampleData)$position) == 0)) {
         stop("wrong object-data in input")
     } else {
-        log2ratios <- assayData(sampleData)$copyNumber
+        log2ratios <- as.matrix(assayData(sampleData)$copyNumber)
         snpName <- featureNames(featureData(sampleData))
+        snpNameOrig <- snpName
         chr <- featureData(sampleData)$chromosome
         position <- featureData(sampleData)$position
         chr[chr == "X"] <- 23
@@ -530,8 +531,12 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
             position[chr == i] <- position[chr == i][o]
             snpName[chr == i] <- snpName[chr == i][o]
         }
-        log2ratios <- log2ratios[snpName,]
-        if (ifLogRatio == 0) log2ratios <- log2(log2ratios) - 1
+        log2ratios <- as.matrix(log2ratios[snpName,])
+        if (ifLogRatio == 0) { 
+           log2ratios <- log2ratios/100 - 1
+        } else {
+           log2ratios <- log2ratios/100
+        }
         chr[chr == 23] <- "X"
         chr[chr == 24] <- "Y"
         o <- order(snpName)
@@ -539,8 +544,15 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
         if (length(regr) > 0)  regrMatrix <- matrix(nrow=length(chr), ncol=dim(log2ratios)[2])  
         for (i in sampleToBeAnalyzed) {
             r <- estProfileWithMBPCR(snpName, chr, position, log2ratios[,i], chrToBeAnalyzed, maxProbeNumber, rhoSquare, kMax, nu, sigmaSquare, typeEstRho, regr)
-            cnMatrix[,i] <- r$estPC[o]
-            if (length(regr) > 0) regrMatrix[,i] <- r$regrCurve[o]
+            estPC <- r$estPC
+            names(estPC) <- snpName
+            cnMatrix[,i] <- estPC[snpNameOrig]
+            if (length(regr) > 0) { 
+              regrCurve <- r$regrCurve
+              names(regrCurve) <- snpName
+              regrMatrix[,i] <- regrCurve
+
+            } 
         } 
         resultPC <- new("oligoSnpSet", call=assayData(sampleData)$call, callProbability =assayData(sampleData)$callProbability, cnConfidence = matrix(NA, length(chr), dim(log2ratios)[2]), copyNumber=cnMatrix, annotation = annotation(sampleData) ,phenoData = phenoData(sampleData), featureData = featureData(sampleData))
 	for(i in varLabels(featureData(resultPC))){
