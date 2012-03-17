@@ -351,16 +351,13 @@ cc <- r$estPC
 cc1 <- cc[chromosome(cc) == "2",1]
 @
 <<echo=TRUE,print=FALSE>>=
-graph.par <- plotSnp(cc1)
+par(las=1)
 @
 <<echo=TRUE,print=FALSE>>=
-graph.par$ylim <- c(-0.23, 0.1)
+plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number",xaxt="n")
 @
 <<echo=TRUE,print=FALSE>>=
-graph.par$cytoband.ycoords <- c(-0.22, -0.18)
-@
-<<echo=TRUE,print=FALSE>>=
-print(graph.par)
+plotIdiogram(2, ylim=c(-0.22, -0.18), new=FALSE)
 @
 
 
