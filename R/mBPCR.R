@@ -550,7 +550,7 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
             if (length(regr) > 0) { 
               regrCurve <- r$regrCurve
               names(regrCurve) <- snpName
-              regrMatrix[,i] <- regrCurve
+              regrMatrix[,i] <- regrCurve[snpNameOrig]
 
             } 
         } 
