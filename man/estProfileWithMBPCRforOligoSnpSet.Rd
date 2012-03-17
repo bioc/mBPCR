@@ -73,10 +73,9 @@ corresponding to the not analyzed chromosomes and samples, are equal to \code{NA
 #library(SNPchip)
 #cc <- r$estPC
 #cc1 <- cc[chromosome(cc) == "2",1]
-#graph.par <- plotSnp(cc1)
-#graph.par$ylim <- c(-0.23, 0.1)
-#graph.par$cytoband.ycoords <- c(-0.22, -0.18)
-#print(graph.par)
+#par(las=1)
+#plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number", xaxt="n")
+#plotIdiogram(2, ylim=c(-0.22, -0.18), new=FALSE)
 }
 
 \keyword{regression}
