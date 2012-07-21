@@ -1,6 +1,7 @@
 Package: mBPCR 
-Version: 1.11.0
-Date: 2012-16-03
+Version: 1.11.1 
+
+Date: 2012-21-07
 Title: Bayesian Piecewise Constant Regression for DNA copy number estimation
 Author: P.M.V. Rancoita <paola.rancoita@gmail.com>, with 
         contributions from M. Hutter <marcus.hutter@anu.edu.au>
