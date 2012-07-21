@@ -554,14 +554,14 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
 
             } 
         } 
-        resultPC <- new("oligoSnpSet", call=assayData(sampleData)$call, callProbability =assayData(sampleData)$callProbability, cnConfidence = matrix(NA, length(chr), dim(log2ratios)[2]), copyNumber=cnMatrix, annotation = annotation(sampleData) ,phenoData = phenoData(sampleData), featureData = featureData(sampleData))
+        resultPC <- new("oligoSnpSet", call=assayData(sampleData)$call, callProbability =assayData(sampleData)$callProbability, cnConfidence = matrix(as.integer(NA), length(chr), dim(log2ratios)[2]), copyNumber=integerMatrix(cnMatrix, 100), annotation = annotation(sampleData) ,phenoData = phenoData(sampleData), featureData = featureData(sampleData))
 	for(i in varLabels(featureData(resultPC))){
 	    featureData(resultPC)[[i]] <- featureData(sampleData)[[i]]
         }
         if (length(regr) == 0) {
             return(list(estPC=resultPC))
         } else {
-            resultRegr <- new("oligoSnpSet", call=assayData(sampleData)$call, callProbability =assayData(sampleData)$callProbability, cnConfidence = matrix(NA, length(chr), dim(log2ratios)[2]),  copyNumber=regrMatrix,annotation = annotation(sampleData) ,phenoData = phenoData(sampleData), featureData = featureData(sampleData))
+            resultRegr <- new("oligoSnpSet", call=assayData(sampleData)$call, callProbability =assayData(sampleData)$callProbability, cnConfidence = matrix(as.integer(NA), length(chr), dim(log2ratios)[2]),  copyNumber=integerMatrix(regrMatrix, 100),annotation = annotation(sampleData) ,phenoData = phenoData(sampleData), featureData = featureData(sampleData))
 	    for(i in varLabels(featureData(resultRegr))){
 	        featureData(resultRegr)[[i]] <- featureData(sampleData)[[i]]
             }
