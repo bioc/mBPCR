@@ -357,7 +357,7 @@ par(las=1)
 plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number",xaxt="n")
 @
 <<echo=TRUE,print=FALSE>>=
-plotIdiogram(2, ylim=c(-0.22, -0.18), new=FALSE)
+plotIdiogram(2,  build=genomeBuild(oligoSet), ylim=c(-0.225, -0.19), new=FALSE)
 @
 
 
