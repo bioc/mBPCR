@@ -17,13 +17,13 @@ to choose the estimator of the variance of the levels \code{rhoSquare} (i.e. eit
 
 
 \arguments{
-\item{sampleData}{object of type oligoSnpSet. The following fields must not be empty: \code{assayData(sampleData)$copyNumber} (it contains the raw copy number values), \code{featureNames(featureData(sampleData))} (it contains the names of the SNPs), \code{featureData(sampleData)$chromosome}  (it contains the names of the chromosomes to which each of the SNPs belongs), \code{featureData(sampleData)$position}  (it contains the physical positions of the SNPs).}
+\item{sampleData}{object of type oligoSnpSet. The following fields must not be empty: \code{assayData(sampleData)$copyNumber} (it contains the raw copy number values with scale log2 multiplied by 100 and transformed as integers), \code{featureNames(featureData(sampleData))} (it contains the names of the SNPs), \code{featureData(sampleData)$chromosome}  (it contains the names of the chromosomes to which each of the SNPs belongs), \code{featureData(sampleData)$position}  (it contains the physical positions of the SNPs).}
 \item{sampleToBeAnalyzed}{vector containing the number of the columns corresponding to the samples the user wants to analyze.}
 \item{chrToBeAnalyzed}{array containing the name of the chromosomes that the user wants to analyze. The possible values of the chromosomes are: the integers from 1 to 22, 'X' and 'Y'.}
 \item{maxProbeNumber}{maximum number of probes that a chromosome (or arm of a chromosome) can have to be analyzed. The procedure of profile estimation
 needs the computation of an array of length \eqn{(length(chromosome)+1)*(length(chromosome)+2)/2}. To be sure to have set this parameter
  correctly, try to create the array \code{A <- array(1, dim=(maxProbeNumber+1)*(maxProbeNumber+2)/2)}, before starting with the estimation procedure.}
-\item{ifLogRatio}{denotes if the data are either the log2ratio of raw copy number data or raw copy number data. By default, they are considered as log2ratio data, otherwise (\code{ifLogRatio=0}) they are transformed in log2ratio data.}
+\item{ifLogRatio}{denotes whether the original log2 data were centered at zero (i.e. they were in log2ratio scale) or not. By default, they are considered as derived by log2ratio data (\code{ifLogRatio=1}), otherwise (\code{ifLogRatio=0}) they are transformed in order to be derived from log2ratio data.}
 \item{rhoSquare}{variance of the segment levels. If \code{rhoSquare=NULL}, then the algorithm estimates it on the sample.}
 \item{kMax}{maximum number of segments}
 \item{nu}{mean of the segment levels. If \code{nu=NULL}, then the algorithm estimates it on the sample.}
@@ -48,8 +48,8 @@ Regression Curve Averaging over k is computed (BRCAk).
 
 \value{
 A list containing:
-\item{estPC}{an oligoSnpSet equal to sampleData apart from the field \code{assayData(estPC)$copyNumber}, which contains the estimated profile with mBPCR}
-\item{regrCurve}{an oligoSnpSet equal to sampleData apart from the field \code{assayData(regrCurve)$copyNumber}, which contains the estimated bayesian regression curve. This object is returned only if \code{regr!=NULL}.}
+\item{estPC}{an oligoSnpSet equal to sampleData apart from the field \code{assayData(estPC)$copyNumber}, which contains the estimated profile with mBPCR in scale log2ratio multiplied by 100}
+\item{regrCurve}{an oligoSnpSet equal to sampleData apart from the field \code{assayData(regrCurve)$copyNumber}, which contains the estimated bayesian regression curve in scale log2ratio multiplied by 100. This object is returned only if \code{regr!=NULL}.}
 
 The matrices \code{assayData(estPC)$copyNumber} and \code{assayData(regrCurve)$copyNumber} have the same dimension of \code{assayData(sampleData)$copyNumber}, hence their elements, 
 corresponding to the not analyzed chromosomes and samples, are equal to \code{NA}.
@@ -74,8 +74,8 @@ corresponding to the not analyzed chromosomes and samples, are equal to \code{NA
 #cc <- r$estPC
 #cc1 <- cc[chromosome(cc) == "2",1]
 #par(las=1)
-#plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number", xaxt="n")
-#plotIdiogram(2, ylim=c(-0.22, -0.18), new=FALSE)
+#plot(position(cc1), copyNumber(cc1)/100, ylim=c(-0.23, 0.1), ylab="copy number", xaxt="n")
+#plotIdiogram(2, build=genomeBuild(oligoSet), ylim=c(-0.225, -0.19), new=FALSE)
 }
 
 \keyword{regression}
