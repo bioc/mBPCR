@@ -336,14 +336,10 @@ library(mBPCR)
 @ 
 
 <<echo=TRUE,print=FALSE>>=
-library(SNPchip)
-@
-
-<<echo=TRUE,print=FALSE>>=
 r <-estProfileWithMBPCRforOligoSnpSet(oligoSet, sampleToBeAnalyzed=1, chrToBeAnalyzed=2, maxProbeNumber=1000, ifLogRatio=0, rhoSquare=0.0889637)
 @
 
-After the estimation, we can plot the profiles using a function of the package {\tt SNPchip}.
+After the estimation, we can plot the profile.
 <<echo=TRUE,print=FALSE>>=
 cc <- r$estPC
 @
@@ -354,12 +350,8 @@ cc1 <- cc[chromosome(cc) == "2",1]
 par(las=1)
 @
 <<echo=TRUE,print=FALSE>>=
-plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number",xaxt="n")
+plot(position(cc1), copyNumber(cc1), ylim=c(-0.23, 0.1), ylab="copy number", xlab="base position")
 @
-<<echo=TRUE,print=FALSE>>=
-plotIdiogram(2,  build=genomeBuild(oligoSet), ylim=c(-0.225, -0.19), new=FALSE)
-@
-
 
 \section{Suggestions}
 
