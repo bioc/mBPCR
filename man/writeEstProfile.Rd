@@ -50,17 +50,21 @@ The function writes or returns at maximum three tables:
 ##import the 10K data of cell line REC
 data(rec10k)
 ##estimation of chromosome 5
-results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeAnalyzed=5, maxProbeNumber=2000)
+results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, 
+rec10k$log2ratio, chrToBeAnalyzed=5, maxProbeNumber=2000)
 ##write the estimated profile of chromosome 5 in a file in  the working directory
-writeEstProfile(path='', sampleName='rec10k', rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeWritten=5, results$estPC, results$estBoundaries, results$postProbT)
+writeEstProfile(path='', sampleName='rec10k', rec10k$SNPname, rec10k$Chromosome, 
+rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeWritten=5, results$estPC, results$estBoundaries, 
+results$postProbT)
 
 
-#### the same result can be obtained in the following way, by using the function computeMBPCR for the estimation
-#
+#### the same result can be obtained in the following way, by using the function computeMBPCR
+#### for the estimation
 ##estimation of the global parameters
 #param <- estGlobParam(rec10k$log2ratio)
 ##estimation of chromosome 5
-#results <- computeMBPCR(rec10k$log2ratio[rec10k$Chromosome == 5], nu=param$nu, rhoSquare=param$rhoSquare, sigmaSquare=param$sigmaSquare)
+#results <- computeMBPCR(rec10k$log2ratio[rec10k$Chromosome == 5], nu=param$nu, 
+#rhoSquare=param$rhoSquare, sigmaSquare=param$sigmaSquare)
 ##write the estimated profile of chromosome 5 in a file in the working directory
 #estPC <- array(dim=length(rec10k$SNPname))
 #estBoundaries <- list(dim=1)
@@ -68,7 +72,8 @@ writeEstProfile(path='', sampleName='rec10k', rec10k$SNPname, rec10k$Chromosome,
 #estPC[rec10k$Chromosome == 5] <- results$estPC
 #estBoundaries[[1]] <- results$estBoundaries
 #postProbT[[1]] <- c(results$postProbT[results$estBoundaries[-results$estK]],1)
-#writeEstProfile(path='', sampleName='rec10k', rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeWritten=5, estPC, estBoundaries, postProbT)
+#writeEstProfile(path='', sampleName='rec10k', rec10k$SNPname, rec10k$Chromosome, 
+#rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeWritten=5, estPC, estBoundaries, postProbT)
 }
 
 \keyword{file}
