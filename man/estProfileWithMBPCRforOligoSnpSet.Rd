@@ -10,8 +10,9 @@ to choose the estimator of the variance of the levels \code{rhoSquare} (i.e. eit
 }
 
 \usage{
-  estProfileWithMBPCRforOligoSnpSet(sampleData, sampleToBeAnalyzed, chrToBeAnalyzed, maxProbeNumber, ifLogRatio=1,
-                      rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL)
+  estProfileWithMBPCRforOligoSnpSet(sampleData, sampleToBeAnalyzed, chrToBeAnalyzed, 
+                      maxProbeNumber, ifLogRatio=1, rhoSquare=NULL, kMax=50, nu=NULL, 
+                      sigmaSquare=NULL, typeEstRho=1, regr=NULL, hg='hg18')
 
 }
 
@@ -33,6 +34,7 @@ with \eqn{\hat{\rho}_1^2}, while if \code{typeEstRho=0}, it estimates \code{rhoS
 \item{regr}{choice of the computation of the regression curve. If \code{regr=NULL}, then the regression curve is not computed, 
 if \code{regr="BRC"} the Bayesian Regression Curve is computed (BRC with \eqn{K_2}), if \code{regr="BRCAk"} the Bayesian 
 Regression Curve Averaging over k is computed (BRCAk).}
+\item{hg}{genome build used for retrieving the base positions of the centromeres in case the chromosomes need to be divided into two parts for the estimation (see explanation of \code{maxProbeNumber}). Current available options are: \code{'hg18'}, \code{'hg19'} and \code{'hg38'}.}
 }
 
 \details{
@@ -68,14 +70,15 @@ corresponding to the not analyzed chromosomes and samples, are equal to \code{NA
 ###import an example of oligoSnpSet data
 #data(oligoSetExample, package="oligoClasses")
 ##estimation of chromosome 2 in sample 1 
-#r <-estProfileWithMBPCRforOligoSnpSet(oligoSet, sampleToBeAnalyzed=1, chrToBeAnalyzed=2, maxProbeNumber=1000, ifLogRatio=0, rhoSquare=0.0889637)
-##plot of the estimated chromosomes
+#r <-estProfileWithMBPCRforOligoSnpSet(oligoSet, sampleToBeAnalyzed=1, chrToBeAnalyzed=2, 
+#maxProbeNumber=1000, ifLogRatio=0, rhoSquare=0.0889637)
+##plot of the estimated chromosome
 #library(SNPchip)
 #cc <- r$estPC
 #cc1 <- cc[chromosome(cc) == "2",1]
 #par(las=1)
-#plot(position(cc1), copyNumber(cc1)/100, ylim=c(-0.23, 0.1), ylab="copy number", xaxt="n")
-#plotIdiogram(2, build=genomeBuild(oligoSet), ylim=c(-0.225, -0.19), new=FALSE)
+#plot(position(cc1), copyNumber(cc1)/100, ylim=c(-0.23, 0.1), ylab="copy number",
+#xlab="base position")
 }
 
 \keyword{regression}
