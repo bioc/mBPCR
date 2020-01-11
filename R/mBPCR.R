@@ -1,5 +1,19 @@
 .packageName <- "mBPCR"
 
+centromere <- function(chr, hg='hg18')
+ {
+    if (hg == 'hg18') {
+       X <- GWASTools::centromeres.hg18
+    }
+    if (hg == 'hg19') {
+       X <- GWASTools::centromeres.hg19
+    }
+    if (hg == 'hg38') {
+       X <- GWASTools::centromeres.hg38
+    }
+    return( X[which(X$chrom==chr),2:3] )
+ }
+
 logAdd <- function(x)
  {
     if (NCOL(x) == 1) {
@@ -387,8 +401,9 @@ importCNData <- function(path, NRowSkip, ifLogRatio=1)
     if ( ifLogRatio == 0) return(list(snpName=results[[1]], chr=results[[2]], position=results[[3]], logratio=log2(results[[4]])-1))
  }
 
-estProfileWithMBPCR <- function(snpName, chr, position, logratio, chrToBeAnalyzed, maxProbeNumber, rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL)
+estProfileWithMBPCR <- function(snpName, chr, position, logratio, chrToBeAnalyzed, maxProbeNumber, rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL, hg='hg18')
  {
+    message(paste('Chromosomes are eventually divided using centromere base positions from ', hg, '. \n For changing genome build, change the parameter hg.', sep=''))
     if (length(nu) == 0 || length(rhoSquare) == 0 || length(sigmaSquare) == 0) {
         results <- estGlobParam(logratio, nu, rhoSquare, sigmaSquare, typeEstRho)
 	  nu <- results$nu
@@ -412,7 +427,7 @@ estProfileWithMBPCR <- function(snpName, chr, position, logratio, chrToBeAnalyze
             postProbT[[which(chrToBeAnalyzed == j)]] <- c(results$postProbT[results$estBoundaries[-results$estK]],1)
 	      remove(results)
         }else{
-	  a <- mean(unlist(centromere(j)))		
+	  a <- mean(unlist(centromere(j,hg)))		
           a <- which(position[chr == j] > a)[1]-1
           bounds1 <- NULL
           postProb1 <- NULL
@@ -459,10 +474,11 @@ estProfileWithMBPCR <- function(snpName, chr, position, logratio, chrToBeAnalyze
     }
  }
  
-plotEstProfile <- function(sampleName='', chr, position, logratio, chrToBePlotted, estPC, maxProbeNumber, legendPosition='bottomleft', regrCurve=NULL, regr=NULL)
+plotEstProfile <- function(sampleName='', chr, position, logratio, chrToBePlotted, estPC, maxProbeNumber, legendPosition='bottomleft', regrCurve=NULL, regr=NULL, hg='hg18')
  {
+    message(paste('Chromosomes are eventually divided using centromere base positions from ', hg, '. \n For changing genome build, change the parameter hg.', sep=''))
     for (j in 1:length(chrToBePlotted)) {
-        if(j>1) x11()
+        if(j>1) dev.new()
         if (length(estPC) != 0) { 
 		plot(position[chr == chrToBePlotted[j]], logratio[chr == chrToBePlotted[j]], pch='.', cex=2, col='grey', xlab=paste('chromosome', chrToBePlotted[j], sep=' '), ylab='log2ratio')
         	title(paste(sampleName, sep=''))
@@ -481,7 +497,7 @@ plotEstProfile <- function(sampleName='', chr, position, logratio, chrToBePlotte
                 points(position[chr == chrToBePlotted[j]], estPC[chr == chrToBePlotted[j]], type='l', col=4)
                 if (length(regr) != 0 && (regr == "BRC" | regr == "BRCAk")) points(position[chr == chrToBePlotted[j]], regrCurve[chr == chrToBePlotted[j]], type='l', col='red')
             } else {
-		a <- mean(unlist(centromere(chrToBePlotted[j]))) 		
+		a <- mean(unlist(centromere(chrToBePlotted[j],hg))) 		
                 a <- which(position[chr == chrToBePlotted[j]] > a)[1]-1
                 points(position[chr == chrToBePlotted[j]][1:a], estPC[chr == chrToBePlotted[j]][1:a], type='l', col=4)
                 points(position[chr == chrToBePlotted[j]][(a+1):n], estPC[chr == chrToBePlotted[j]][(a+1):n], type='l', col=4)
@@ -501,7 +517,7 @@ plotEstProfile <- function(sampleName='', chr, position, logratio, chrToBePlotte
             if(n <= maxProbeNumber){
                 points(position[chr == chrToBePlotted[j]], regrCurve[chr == chrToBePlotted[j]], type='l', col=4)
             } else {
-                a <- mean(unlist(centromere(chrToBePlotted[j])))	
+                a <- mean(unlist(centromere(chrToBePlotted[j],hg)))	
                 a <- which(position[chr == chrToBePlotted[j]] > a)[1]-1
                 points(position[chr == chrToBePlotted[j]][1:a], regrCurve[chr == chrToBePlotted[j]][1:a], type='l', col=4)
                 points(position[chr == chrToBePlotted[j]][(a+1):n], regrCurve[chr == chrToBePlotted[j]][(a+1):n], type='l', col=4)
@@ -509,7 +525,7 @@ plotEstProfile <- function(sampleName='', chr, position, logratio, chrToBePlotte
         }
     }
  }
-estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, chrToBeAnalyzed, maxProbeNumber, ifLogRatio=1, rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL)
+estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, chrToBeAnalyzed, maxProbeNumber, ifLogRatio=1, rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL, hg='hg18')
  {
     if (class(sampleData) !="oligoSnpSet" || (length(assayData(sampleData)$copyNumber) == 0 | length(featureData(sampleData)$chromosome) == 0 | length(featureData(sampleData)$position) == 0)) {
         stop("wrong object-data in input")
@@ -543,7 +559,7 @@ estProfileWithMBPCRforOligoSnpSet <- function(sampleData, sampleToBeAnalyzed, ch
         cnMatrix <- matrix(nrow=length(chr), ncol=dim(log2ratios)[2]) 
         if (length(regr) > 0)  regrMatrix <- matrix(nrow=length(chr), ncol=dim(log2ratios)[2])  
         for (i in sampleToBeAnalyzed) {
-            r <- estProfileWithMBPCR(snpName, chr, position, log2ratios[,i], chrToBeAnalyzed, maxProbeNumber, rhoSquare, kMax, nu, sigmaSquare, typeEstRho, regr)
+            r <- estProfileWithMBPCR(snpName, chr, position, log2ratios[,i], chrToBeAnalyzed, maxProbeNumber, rhoSquare, kMax, nu, sigmaSquare, typeEstRho, regr, hg)
             estPC <- r$estPC
             names(estPC) <- snpName
             cnMatrix[,i] <- estPC[snpNameOrig]
