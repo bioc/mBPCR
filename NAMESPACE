@@ -2,11 +2,17 @@
 importMethodsFrom(Biobase, annotation, assayData, featureData,featureNames,
     varLabels, phenoData, "featureData<-")
 importClassesFrom(oligoClasses, oligoSnpSet)
-importFrom(SNPchip, centromere)
+importFrom("oligoClasses","integerMatrix")
+importFrom("graphics", "legend", "plot", "points", "title")
+importFrom("methods", "new")
+importFrom("utils", "data", "read.table", "write.table")
+importFrom("grDevices", "dev.new")
+import("GWASTools")
 
 ## Exported functions
 
-export("logAdd",
+export( "centromere",
+        "logAdd",
 	"indexLA0",
 	"estGlobParam",
 	"computeLA0Vect",
@@ -18,6 +24,6 @@ export("logAdd",
 	"writeEstProfile",
 	"importCNData",
 	"estProfileWithMBPCR",
-      "estProfileWithMBPCRforOligoSnpSet",
+        "estProfileWithMBPCRforOligoSnpSet",
 	"plotEstProfile")
 
