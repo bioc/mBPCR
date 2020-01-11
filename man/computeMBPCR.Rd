@@ -10,7 +10,8 @@ to choose the estimator of the variance of the levels \code{rhoSquare} (i.e. eit
 }
 
 \usage{
- computeMBPCR(y, kMax=50, nu=NULL, rhoSquare=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL)
+ computeMBPCR(y, kMax=50, nu=NULL, rhoSquare=NULL, sigmaSquare=NULL, typeEstRho=1,
+              regr=NULL)
 }
 
 
