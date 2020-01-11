@@ -11,7 +11,8 @@ to choose the estimator of the variance of the levels \code{rhoSquare} (i.e. eit
 
 \usage{
   estProfileWithMBPCR(snpName, chr, position, logratio, chrToBeAnalyzed, maxProbeNumber, 
-                      rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, regr=NULL)
+                      rhoSquare=NULL, kMax=50, nu=NULL, sigmaSquare=NULL, typeEstRho=1, 
+                      regr=NULL, hg='hg18')
 }
 
 
@@ -33,6 +34,7 @@ with \eqn{\hat{\rho}_1^2}, while if \code{typeEstRho=0}, it estimates \code{rhoS
 \item{regr}{choice of the computation of the regression curve. If \code{regr=NULL}, then the regression curve is not computed, 
 if \code{regr="BRC"} the Bayesian Regression Curve is computed (BRC with \eqn{K_2}), if \code{regr="BRCAk"} the Bayesian 
 Regression Curve Averaging over k is computed (BRCAk).}
+\item{hg}{genome build used for retrieving the base positions of the centromeres in case the chromosomes need to be divided into two parts for the estimation (see explanation of \code{maxProbeNumber}). Current available options are: \code{'hg18'}, \code{'hg19'} and \code{'hg38'}.}
 }
 
 \details{
@@ -70,7 +72,8 @@ corresponding to the not analyzed chromosomes, are equal to \code{NA}.
 ##import the 10K data of cell line REC  
 data(rec10k)
 ##estimation of the profile of chromosome 5
-results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeAnalyzed=5, maxProbeNumber=2000)
+results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, 
+rec10k$log2ratio, chrToBeAnalyzed=5, maxProbeNumber=2000)
 ##plot the estimated profile of chromosome 5
 y <- rec10k$log2ratio[rec10k$Chromosome == 5]
 p <- rec10k$PhysicalPosition[rec10k$Chromosome == 5]
@@ -78,7 +81,8 @@ plot(p, y)
 points(p, results$estPC[rec10k$Chromosome == 5], type='l', col='red')
 
 ###for the estimation of the profile of all chromosomes
-#results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeAnalyzed=c(1:22,'X'), maxProbeNumber=2000)
+#results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, 
+#rec10k$log2ratio, chrToBeAnalyzed=c(1:22,'X'), maxProbeNumber=2000)
 
 }
 
