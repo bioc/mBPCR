@@ -18,7 +18,8 @@ computeA10(i, j, y, nu, rhoSquare, sigmaSquare)
 computeLA0Vect(y, nu, rhoSquare, sigmaSquare)
 computePCReg(y, lA0, lL, lR, nu, rhoSquare, sigmaSquare, kMax=50, regr=NULL)
 computeRecursions(lA0, n, kMax=50)
-computeRegrCurve(y, typeRegr="BRC", n, kMax=50, lL, lR, lA0, nu, rhoSquare, sigmaSquare, option)
+computeRegrCurve(y, typeRegr="BRC", n, kMax=50, lL, lR, lA0, nu, rhoSquare, 
+                 sigmaSquare, option)
 indexLA0(r, c, n)
 }
 
