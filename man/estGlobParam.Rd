@@ -40,7 +40,8 @@ A list containing:
 \examples{
 ##import the 10K data of cell line REC  
 data(rec10k)
-##estimation of all the global parameters (the variance of the segment is estimated with \eqn{\hat{\rho}^2_1})
+##estimation of all the global parameters (the variance of the segment is 
+##estimated with \eqn{\hat{\rho}^2_1})
 estGlobParam(rec10k$log2ratio)
 }
 
