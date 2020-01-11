@@ -9,8 +9,9 @@ Function to plot the estimated profiles of copy number data.
 }
 
 \usage{
-  plotEstProfile(sampleName='', chr, position, logratio, chrToBePlotted, estPC, maxProbeNumber,
-                 legendPosition='bottomleft', regrCurve=NULL, regr=NULL)
+  plotEstProfile(sampleName='', chr, position, logratio, chrToBePlotted, estPC, 
+                 maxProbeNumber, legendPosition='bottomleft', regrCurve=NULL, 
+                 regr=NULL, hg='hg18')
 
 }
 
@@ -31,6 +32,7 @@ needs the computation of an array of length \eqn{(length(chromosome)+1)*(length(
 \item{regr}{choice of the computation of the regression curve. If \code{regr=NULL}, then the regression curve was not computed (then the estimated Bayesian regression curve is not plotted),
  if \code{regr="BRC"} the Bayesian Regression Curve was computed (mBRC with \eqn{K_2}), 
 if \code{regr="BRCAk"} the Bayesian Regression Curve Averaging over k was computed (BRCAk).}
+\item{hg}{genome build used for retrieving the base positions of the centromeres in case the chromosomes need to be divided into two parts for the estimation (see explanation of \code{maxProbeNumber}). Current available options are: \code{'hg18'}, \code{'hg19'} and \code{'hg38'}.}
 }
 
 \details{
@@ -41,9 +43,11 @@ The function plots the estimated profiles of the chromosomes of \code{chrToBePlo
 ##import the 10K data of cell line REC
 data(rec10k)
 ##estimation of chromosomes 3 and 5
-results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBeAnalyzed=c(3,5), maxProbeNumber=2000)
+results <- estProfileWithMBPCR(rec10k$SNPname, rec10k$Chromosome, rec10k$PhysicalPosition, 
+rec10k$log2ratio, chrToBeAnalyzed=c(3,5), maxProbeNumber=2000)
 ##plot the corresponding estimated profiles
-plotEstProfile(sampleName='rec10k', rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, chrToBePlotted=c(3,5), results$estPC, maxProbeNumber=2000)
+plotEstProfile(sampleName='rec10k', rec10k$Chromosome, rec10k$PhysicalPosition, rec10k$log2ratio, 
+chrToBePlotted=c(3,5), results$estPC, maxProbeNumber=2000)
 }
 
 \keyword{hplot}
